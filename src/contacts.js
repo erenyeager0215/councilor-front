@@ -52,6 +52,7 @@ export async function deleteContact(id) {
   let contacts = await localforage.getItem("contacts");
   let index = contacts.findIndex(contact => contact.id === id);
   if (index > -1) {
+    // index番目を開始位置としてそこから１つ要素を削除する
     contacts.splice(index, 1);
     await set(contacts);
     return true;

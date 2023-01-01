@@ -1,10 +1,52 @@
-import { Form,useLoaderData } from "react-router-dom";
-import {getContact}from "../contacts"
+import { Form,useLoaderData,useFetcher } from "react-router-dom";
+import {getContact, updateContact}from "../contacts"
 
 export async function loader({params}){
     // pathの":contactId"がparams.contactIdとして渡される
-    return getContact(params.contactId)
+    const contact = await getContact(params.contactId)
+    if (!contact){
+      throw new Response("",{
+        status:404,
+        statusText:"Not Found",
+      });
+    }
+    return contact
 }
+
+export async function action({request,params}){
+  let formData = await request.formData();
+  return updateContact(params.contactId,{
+    favorite:formData.get("favorite") === "true",
+  })
+}
+
+function Favorite({ contact }) {
+  const fetcher = useFetcher();
+  // yes, this is a `let` for later
+  let favorite = contact.favorite;
+  // 下記を記述するとデータ更新より先にUIだけ変更が加えられる
+  if (fetcher.formData) {
+    favorite = fetcher.formData.get("favorite") === "true";
+  }
+
+  return (
+    <fetcher.Form method="post">
+      <button
+        name="favorite"
+        // favoriteの値がtrueの場合はvalueをfalseに、falseの場合はtureを返す
+        value={favorite ? "false" : "true"}
+        aria-label={
+          favorite
+            ? "Remove from favorites"
+            : "Add to favorites"
+        }
+      >
+        {favorite ? "★" : "☆"}
+      </button>
+    </fetcher.Form>
+  );
+}
+
 
 export const Contact=()=> {
     const contact = useLoaderData();  
@@ -45,10 +87,12 @@ export const Contact=()=> {
         {contact.notes && <p>{contact.notes}</p>}
 
         <div>
+          {/* actionに指定した文字列へルーティングされる */}
           <Form action="edit">
             <button type="submit">Edit</button>
           </Form>
           <Form
+          // method="post"をやらないとリストからデータが削除されない
             method="post"
             action="destroy"
             onSubmit={(event) => {
@@ -70,22 +114,3 @@ export const Contact=()=> {
   );
 }
 
-function Favorite({ contact }) {
-  // yes, this is a `let` for later
-  let favorite = contact.favorite;
-  return (
-    <Form method="post">
-      <button
-        name="favorite"
-        value={favorite ? "false" : "true"}
-        aria-label={
-          favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
-      >
-        {favorite ? "★" : "☆"}
-      </button>
-    </Form>
-  );
-}

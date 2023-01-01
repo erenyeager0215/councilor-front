@@ -5,12 +5,16 @@ import {
   Form,
   redirect,
   useNavigation,
+  useSubmit,
 } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
+import { useEffect } from "react";
 
-export async function loader() {
-  const contacts = await getContacts();
-  return { contacts };
+export async function loader({ request }) {
+  const url = new URL(request.url);
+  const q = url.searchParams.get("q");
+  const contacts = await getContacts(q);
+  return { contacts, q };
 }
 
 export async function action() {
@@ -19,24 +23,45 @@ export async function action() {
 }
 
 export const Root = () => {
-  const { contacts } = useLoaderData();
+  const { contacts, q } = useLoaderData();
   const navigation = useNavigation();
+  const submit = useSubmit();
+
+  // クエリの文字列とnavigation.locationの文字が一致した場合serchingにtureを返す
+  // serchingがtrueの時にローディングのUIがでる
+  const serching =
+    navigation.location &&
+    new URLSearchParams(navigation.location.search).has("q");
+  console.log(serching);
+
+  // serchで検索された文字をブラウザバックしたときに消す
+  useEffect(() => {
+    document.getElementById("q").value = q;
+  }, [q]);
+
   return (
     <>
       <div id="sidebar">
         <h1>React Router Contacts</h1>
         <div>
-          <form id="search-form" role="search">
+          <Form id="search-form" role="search">
             <input
               id="q"
+              className={serching ? "loading" : ""}
               aria-label="Search contacts"
               placeholder="Search"
               type="search"
               name="q"
+              defaultValue={q}
+              // フォームの内容が変わるたびに、自動的にフォームが送信されるようになる
+              onChange={(event) => {
+                const isFirstSerch = q == null;
+                submit(event.currentTarget.form, { replace: !isFirstSerch });
+              }}
             />
-            <div id="search-spinner" aria-hidden hidden={true} />
+            <div id="search-spinner" aria-hidden hidden={!serching} />
             <div className="sr-only" aria-live="polite"></div>
-          </form>
+          </Form>
           <Form method="post">
             <button type="submit">New</button>
           </Form>
@@ -66,9 +91,10 @@ export const Root = () => {
           )}
         </nav>
       </div>
-      <div id="detail"
-      // もしnavigationのstateがloading状態の時、loadingクラスを付与する
-      className={navigation.state==="loading" ? "loading":""}
+      <div
+        id="detail"
+        // もしnavigationのstateがloading状態の時、loadingクラスを付与する
+        className={navigation.state === "loading" ? "loading" : ""}
       >
         <Outlet />
       </div>
