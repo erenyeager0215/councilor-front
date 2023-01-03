@@ -1,33 +1,19 @@
 import localforage from "localforage";
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
+import axios from "axios"
 
-export async function getContacts(query) {
-  await fakeNetwork(`getContacts:${query}`);
-//   localforage内にあるキーが"contacts"のものを取得
-  let contacts = await localforage.getItem("contacts");
-//   contactsに何も入っていない場合は空配列を作成
-  if (!contacts) contacts = [];
-  if (query) {
-    // matchSorter(絞り込みを行う対象の配列 , 抽出条件とする文字列) で絞り込み＆並び替え後の配列が返ってきます
-    // contactsオブジェクトのfirstプロパティにqueryに合致する文字列があれば抽出。
-    // 次にlastプロパティにqueryに合致する文字列があれば抽出。（keysはオブジェクトのプロパティを指し、左に指定するほど優先度が高い）
-    contacts = matchSorter(contacts, query, { keys: ["first", "last"] });
-  }
-  return contacts.sort(sortBy("last", "createdAt"));
+export async function getCouncilors(){
+ const res = await axios.get(`http://localhost:1323/councilors`)
+ const councilors = res.data
+ return councilors
 }
 
-export async function createContact() {
-  await fakeNetwork();
-  let id = Math.random().toString(36).substring(2, 9);
-  let contact = { id, createdAt: Date.now() };
-  let contacts = await getContacts();
-//   contacts配列の中に新規で作成されたcontactが先頭に追加される
-  contacts.unshift(contact);
-//   localforageにcontacts情報をセットする
-  await set(contacts);
-  return contact;
+export async function getCouncilor(id){
+  let councilor = await axios.get(`http://localhost:1323/councilor/${id}`)
+  return councilor
 }
+
 
 export async function getContact(id) {
   await fakeNetwork(`contact:${id}`);

@@ -1,103 +1,185 @@
-import {
-  Outlet,
-  NavLink,
-  useLoaderData,
-  Form,
-  redirect,
-  useNavigation,
-  useSubmit,
-} from "react-router-dom";
-import { getContacts, createContact } from "../contacts";
-import { useEffect } from "react";
+import * as React from "react";
+import { Outlet } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { NavLink } from "react-router-dom";
 
-export async function loader({ request }) {
-  const url = new URL(request.url);
-  const q = url.searchParams.get("q");
-  const contacts = await getContacts(q);
-  return { contacts, q };
-}
 
-export async function action() {
-  const contact = await createContact();
-  return redirect(`/contacts/${contact.id}/edit`);
-}
+const pgObjs = [
+  {
+    name: "議員一覧",
+    path: "./councilors",
+  },
+  {
+    name: "一般質問",
+    path: "./councilors",
+  },
+  {
+    name: "各種データ",
+    path: "./councilors",
+  },
+  {
+    name: "このアプリについて",
+    path: "./councilors",
+  },
+];
+
+const settings = ["マイプロフィール", "ログアウト"];
 
 export const Root = () => {
-  const { contacts, q } = useLoaderData();
-  const navigation = useNavigation();
-  const submit = useSubmit();
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  // クエリの文字列とnavigation.locationの文字が一致した場合serchingにtureを返す
-  // serchingがtrueの時にローディングのUIがでる
-  const serching =
-    navigation.location &&
-    new URLSearchParams(navigation.location.search).has("q");
-  console.log(serching);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
-  // serchで検索された文字をブラウザバックしたときに消す
-  useEffect(() => {
-    document.getElementById("q").value = q;
-  }, [q]);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   return (
     <>
-      <div id="sidebar">
-        <h1>React Router Contacts</h1>
-        <div>
-          <Form id="search-form" role="search">
-            <input
-              id="q"
-              className={serching ? "loading" : ""}
-              aria-label="Search contacts"
-              placeholder="Search"
-              type="search"
-              name="q"
-              defaultValue={q}
-              // フォームの内容が変わるたびに、自動的にフォームが送信されるようになる
-              onChange={(event) => {
-                const isFirstSerch = q == null;
-                submit(event.currentTarget.form, { replace: !isFirstSerch });
+      <AppBar position="static">
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
               }}
-            />
-            <div id="search-spinner" aria-hidden hidden={!serching} />
-            <div className="sr-only" aria-live="polite"></div>
-          </Form>
-          <Form method="post">
-            <button type="submit">New</button>
-          </Form>
-        </div>
-        <nav>
-          {contacts.length ? (
-            <ul>
-              {contacts.map((contact) => (
-                <li key={contact.id}>
-                  <NavLink to={`contacts/${contact.id}`}>
-                    {contact.first || contact.last ? (
-                      <>
-                        {contact.first} {contact.last}
-                      </>
-                    ) : (
-                      <i>No Name</i>
-                    )}{" "}
-                    {contact.favorite && <span>★</span>}
-                  </NavLink>
-                </li>
+            >
+              ○○市議会アプリ
+            </Typography>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pgObjs.map((pgObj) => (
+                  <MenuItem key={pgObj.index}>
+                    <NavLink to={pgObj.path}>
+                      <Typography textAlign="center">{pgObj.name}</Typography>
+                    </NavLink>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href=""
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              ○○市議会アプリ
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pgObjs.map((pgObj) => (
+                <Button
+                  key={pgObj.index}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {pgObj.name}
+                </Button>
               ))}
-            </ul>
-          ) : (
-            <p>
-              <i>No contacts</i>
-            </p>
-          )}
-        </nav>
-      </div>
-      <div
-        id="detail"
-        // もしnavigationのstateがloading状態の時、loadingクラスを付与する
-        className={navigation.state === "loading" ? "loading" : ""}
-      >
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <main>
         <Outlet />
-      </div>
+      </main>
     </>
   );
 };
