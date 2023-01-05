@@ -14,6 +14,7 @@ import {Home} from "./page/Home"
 import {Councilors, loader as councilorsLoader} from "./page/Councilors";
 import {Councilor, loader as councilorLoader} from "./page/Councilor";
 import {SignIn} from "./page/SignIn"
+import {SignUp} from "./page/SignUp"
 
 
 const router = createBrowserRouter([
@@ -58,7 +59,10 @@ const router = createBrowserRouter([
           },{
             path: "signin",
             element:<SignIn/>,      
-          },
+          },{
+            path: "signup",
+            element:<SignUp/>,      
+          }
     ],
   },
 ]);

@@ -13,8 +13,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
-import { LinkComponent } from '../components/atoms/LinkComponent';
-import { redirect } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -31,17 +29,15 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export const SignIn=()=> {
+export const SignUp=()=> {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post('http://localhost:1323/login',{
+    axios.post('http://localhost:1323/create-account',{
       name: data.get('nickname'),
       email: data.get('password'),
     }).then((res)=>{
-      if (res.data === "ok"){
-        return redirect("/")
-      }
+      console.log(res.data)
     }).catch((res)=>{
       console.log(res.data)
 
@@ -64,7 +60,7 @@ export const SignIn=()=> {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            新規登録
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -99,20 +95,8 @@ export const SignIn=()=> {
               disabled={TextField.length<1}
               sx={{ mt: 3, mb: 2 }}
             >
-              ログイン
+              新規登録
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  パスワードを忘れた方
-                </Link>
-              </Grid>
-              <Grid item>
-                <LinkComponent to="../signup" variant="body2">
-                  新規登録
-                </LinkComponent>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
