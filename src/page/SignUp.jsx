@@ -6,13 +6,15 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import { LinkComponent } from '../components/atoms/LinkComponent';
+import Grid from '@mui/material/Grid';
+
 
 function Copyright(props) {
   return (
@@ -38,6 +40,9 @@ export const SignUp=()=> {
       email: data.get('password'),
     }).then((res)=>{
       console.log(res.data)
+      if (res.data === "ok"){
+        alert("アカウントが登録されました。ログインしてください")        
+      }
     }).catch((res)=>{
       console.log(res.data)
 
@@ -97,6 +102,13 @@ export const SignUp=()=> {
             >
               新規登録
             </Button>
+            <Grid container>             
+              <Grid item>
+                <LinkComponent to="../signin" variant="body2">
+                  ログイン
+                </LinkComponent>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

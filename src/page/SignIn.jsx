@@ -39,8 +39,8 @@ export const SignIn=()=> {
       name: data.get('nickname'),
       email: data.get('password'),
     }).then((res)=>{
-      if (res.data === "ok"){
-        return redirect("/")
+      if (res.data==="OK"){   
+        return redirect("/");
       }
     }).catch((res)=>{
       console.log(res.data)
