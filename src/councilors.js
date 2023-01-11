@@ -9,9 +9,28 @@ export async function getCouncilors(){
  return councilors
 }
 
+export async function getCategoryList(){
+  let res = await axios.get(`http://localhost:1323/category`)
+const categorylist = res.data
+  return categorylist
+}
+
 export async function getCouncilor(id){
-  let councilor = await axios.get(`http://localhost:1323/councilor/${id}`)
+  let res = await axios.get(`http://localhost:1323/councilor/${id}`)
+  const councilor = res.data
   return councilor
+}
+
+export async function getQuestions(id){
+  let res = await axios.get(`http://localhost:1323/questions/${id}`)
+  const questions = res.data
+  return questions
+}
+
+export async function getQuestionsByCategory(category){
+  let res = await axios.get(`http://localhost:1323/questions/${category}`)
+  const questions = res.data
+  return questions
 }
 
 

@@ -15,7 +15,8 @@ import {Councilors, loader as councilorsLoader} from "./page/Councilors";
 import {Councilor, loader as councilorLoader} from "./page/Councilor";
 import {SignIn} from "./page/SignIn"
 import {SignUp} from "./page/SignUp"
-
+import {QuestionsHome,loader as categorylistLoader}from "./page/QuestionsHome"
+import {QuestionsByCategory,loader as questionsLoader}from "./page/QuestionsByCategory"
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,14 @@ const router = createBrowserRouter([
           },{
             path: "signup",
             element:<SignUp/>,      
+          },{
+            path: "questions",
+            element:<QuestionsHome/>,      
+            loader:categorylistLoader,
+          },{
+            path: "questions/:category",
+            element:<QuestionsByCategory/>,      
+            loader:questionsLoader,
           }
     ],
   },

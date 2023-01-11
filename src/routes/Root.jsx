@@ -22,7 +22,7 @@ const pgObjs = [
   },
   {
     name: "一般質問",
-    path: "./councilors",
+    path: "./questions",
   },
   {
     name: "各種データ",

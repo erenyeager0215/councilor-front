@@ -1,16 +1,20 @@
 import { useLoaderData } from "react-router-dom";
-import { getCouncilor } from "../councilors";
+import { getCouncilor, getQuestions } from "../councilors";
 
 export async function loader({ params }) {
   // pathの":contactId"がparams.contactIdとして渡される
-  const contact = await getCouncilor(params.councilorId);
-  if (!contact) {
+  const concilors = await getCouncilor(params.councilorId);
+  const questions = await getQuestions(params.councilorId);
+  if (!concilors) {
     throw new Response("", {
       status: 404,
       statusText: "Not Found",
     });
   }
-  return contact;
+  if (!questions) {
+    throw new Response("質問はありませんでした")
+  };
+  return {concilors,questions} ;
 }
 
 // export async function action({request,params}){
@@ -21,17 +25,24 @@ export async function loader({ params }) {
 // }
 
 export const Councilor = () => {
-  const contact = useLoaderData();
-
+  const {concilors ,questions}= useLoaderData();
   return (
     <div>
       <h1>
-      {contact.data.name}
+      {concilors.name}
       <br />
-      {contact.data.address}
+      {concilors.address}
       <br />
-      {contact.data.id}
+      {concilors.id}
+      <br />
       </h1>
+      {questions.map((que)=>(
+        <>
+        <p>{que.overview}</p>
+        <p>{que.category}</p>
+        <p>{que.content}</p>
+        </>
+      ))}
     </div>
   );
 };
