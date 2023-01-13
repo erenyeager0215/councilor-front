@@ -14,7 +14,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { LinkComponent } from '../components/atoms/LinkComponent';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+
+
+
 
 function Copyright(props) {
   return (
@@ -31,22 +38,23 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export const SignIn=()=> {
-  const handleSubmit = (event) => {
+export const SignIn= ()=> {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    axios.post('http://localhost:1323/login',{
-      name: data.get('nickname'),
-      email: data.get('password'),
-    }).then((res)=>{
-      if (res.data==="OK"){   
-        return redirect("/");
-      }
-    }).catch((res)=>{
-      console.log(res.data)
-
+    const data = new FormData(event.currentTarget);  
+    const res = await axios.post('http://localhost:1323/login',{
+      nickname: data.get('nickname'),
+      password: data.get('password'),
     })
+    if(res.data === "OK" ){
+      console.log("成功")
+      return navigate("/")
+    }else{
+      return navigate("/signin")
+    }
   };
+
 
   return (
     <ThemeProvider theme={theme}>

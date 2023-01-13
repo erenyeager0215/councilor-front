@@ -13,6 +13,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
+import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+import { LabelBottomNavigation } from "../components/organisms/LabelBottomNavigation";
 
 
 const pgObjs = [
@@ -180,6 +182,7 @@ export const Root = () => {
       <main>
         <Outlet />
       </main>
+      <LabelBottomNavigation/>
     </>
   );
 };

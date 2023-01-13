@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { LinkComponent } from '../components/atoms/LinkComponent';
 import Grid from '@mui/material/Grid';
-
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -32,20 +32,23 @@ function Copyright(props) {
 const theme = createTheme();
 
 export const SignUp=()=> {
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios.post('http://localhost:1323/create-account',{
-      name: data.get('nickname'),
-      email: data.get('password'),
+    axios.post('http://localhost:1323/register_user',{
+      nickname: data.get('nickname'),
+      password: data.get('password'),
     }).then((res)=>{
       console.log(res.data)
       if (res.data === "ok"){
         alert("アカウントが登録されました。ログインしてください")        
+        navigate("/signin")
       }
     }).catch((res)=>{
+      alert("失敗")        
       console.log(res.data)
-
+      navigate("/signup")
     })
   };
 
