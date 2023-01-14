@@ -1,11 +1,13 @@
+import { SimpleAccordion } from "../components/atoms/SimpleAccordion"
 import { useLoaderData } from "react-router-dom";
 import { getCouncilor, getQuestions } from "../councilors";
+import CardMedia from "@mui/material/CardMedia";
 
 export async function loader({ params }) {
   // pathの":contactId"がparams.contactIdとして渡される
-  const concilors = await getCouncilor(params.councilorId);
+  const councilors = await getCouncilor(params.councilorId);
   const questions = await getQuestions(params.councilorId);
-  if (!concilors) {
+  if (!councilors) {
     throw new Response("", {
       status: 404,
       statusText: "Not Found",
@@ -14,33 +16,38 @@ export async function loader({ params }) {
   if (!questions) {
     throw new Response("質問はありませんでした")
   };
-  return {concilors,questions} ;
+  return {councilors,questions} ;
 }
 
-// export async function action({request,params}){
-//   let formData = await request.formData();
-//   return updateContact(params.contactId,{
-//     favorite:formData.get("favorite") === "true",
-//   })
-// }
+
 
 export const Councilor = () => {
-  const {concilors ,questions}= useLoaderData();
+  const {councilors ,questions}= useLoaderData();
   return (
     <div>
-      <h1>
-      {concilors.name}
+   <CardMedia
+                  component="img"
+                  height="140"
+                  image={`${process.env.PUBLIC_URL}/${councilors.image}.jpg`} 
+                  alt={`${councilors.image}`}
+                />
+      <h2>
+      {councilors.name}
       <br />
-      {concilors.address}
+      {councilors.address}
       <br />
-      {concilors.id}
+      {councilors.id}
       <br />
-      </h1>
+      </h2>
+      
       {questions.map((que)=>(
         <>
-        <p>{que.overview}</p>
-        <p>{que.category}</p>
-        <p>{que.content}</p>
+        <SimpleAccordion overview={que.overview}>
+        {que.content}
+        <br />
+        {que.answer}
+        </SimpleAccordion>
+       
         </>
       ))}
     </div>

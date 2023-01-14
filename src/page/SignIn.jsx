@@ -116,7 +116,7 @@ export const SignIn= ()=> {
                 </Link>
               </Grid>
               <Grid item>
-                <LinkComponent to="../signup" variant="body2">
+                <LinkComponent to="/signup" variant="body2">
                   新規登録
                 </LinkComponent>
               </Grid>

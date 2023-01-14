@@ -32,15 +32,15 @@ export const Councilors = () => {
                 <CardMedia
                   component="img"
                   height="140"
-                  image="https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png"
-                  alt="green iguana"
+                  // image="https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png"
+                  image={`${process.env.PUBLIC_URL}/${councilor.image}.jpg`} 
+                  alt={`${councilor.image}`}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
                     {councilor.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {councilor.address}
                   </Typography>
                 </CardContent>
               </CardActionArea>
