@@ -32,7 +32,7 @@ export const Councilors = () => {
                 <CardMedia
                   component="img"
                   height="140"
-                  // image="https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png"
+                  sx={{ borderRadius: '8px' }}
                   image={`${process.env.PUBLIC_URL}/${councilor.image}.jpg`} 
                   alt={`${councilor.image}`}
                 />

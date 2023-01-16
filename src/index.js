@@ -17,6 +17,7 @@ import {SignIn} from "./page/SignIn"
 import {SignUp} from "./page/SignUp"
 import {QuestionsHome,loader as categorylistLoader}from "./page/QuestionsHome"
 import {QuestionsByCategory,loader as questionsLoader}from "./page/QuestionsByCategory"
+import { LoginUseProvider } from "./provider/LoginUseProvider";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <LoginUseProvider>
     <RouterProvider router={router} />
+    </LoginUseProvider>
   </React.StrictMode>
 );

@@ -1,5 +1,8 @@
+
+
 export const Home=()=> {
     return (
+      <>
       <p id="zero-state">
         議員appのHomeページです.
         <br />
@@ -8,5 +11,6 @@ export const Home=()=> {
           公式の議員一覧ページ
         </a>
       </p>
+      </>
     );
   }
