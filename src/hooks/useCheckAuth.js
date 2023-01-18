@@ -12,6 +12,7 @@ export const useCheckUser=()=>{
            return navigate("/signin");
         }else{
             alert("支持する対象者が更新されました")
+            
         }
     },[])
     return {onCheckUser}

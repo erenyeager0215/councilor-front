@@ -5,6 +5,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from '@mui/material/Button';
 import { useState } from "react";
 import { useCheckUser } from "../hooks/useCheckAuth";
+import { useFavorite } from "../hooks/useFavorite";
+import { useLoginUser } from "../hooks/useLoginUser";
 
 export async function loader({ params }) {
   // pathの":contactId"がparams.contactIdとして渡される
@@ -28,10 +30,13 @@ export const Councilor = () => {
   const {onCheckUser}=useCheckUser();
   const [isSupport,setIsSupport]= useState(false);
   const { councilors, questions } = useLoaderData();
+  const {postFavoriteCouncilor}= useFavorite();
+  const {currentUser}=useLoginUser();
 
   const onClick =()=>{
-    onCheckUser()
-    return setIsSupport(!isSupport)
+    onCheckUser();
+    postFavoriteCouncilor(councilors.id,currentUser);
+    return setIsSupport(!isSupport);
   }
   
 

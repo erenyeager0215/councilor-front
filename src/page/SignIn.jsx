@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { LinkComponent } from '../components/atoms/LinkComponent';
 import { useNavigate } from 'react-router-dom';
+import { useLoginUser } from '../hooks/useLoginUser';
 
 
 
@@ -39,6 +40,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export const SignIn= ()=> {
+  const{setCurrentUser}=useLoginUser();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,8 +49,9 @@ export const SignIn= ()=> {
       nickname: data.get('nickname'),
       password: data.get('password'),
     })
-    if(res.data === "OK" ){
-      console.log("成功")
+    if(res.data !== "NotFound" ){
+      setCurrentUser(res.data.user_id)
+      console.log(res.data.user_id)
       return navigate("/")
     }else{
       return navigate("/signin")
