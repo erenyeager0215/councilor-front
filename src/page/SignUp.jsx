@@ -47,7 +47,6 @@ export const SignUp=()=> {
       }
     }).catch((res)=>{
       alert("失敗")        
-      console.log(res.data)
       navigate("/signup")
     })
   };

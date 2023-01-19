@@ -40,7 +40,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export const SignIn= ()=> {
-  const{setCurrentUser}=useLoginUser();
+  const{currentUser,setCurrentUser}=useLoginUser();
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,8 +50,8 @@ export const SignIn= ()=> {
       password: data.get('password'),
     })
     if(res.data !== "NotFound" ){
-      setCurrentUser(res.data.user_id)
-      console.log(res.data.user_id)
+      setCurrentUser(res.data)
+      console.log(currentUser)
       return navigate("/")
     }else{
       return navigate("/signin")

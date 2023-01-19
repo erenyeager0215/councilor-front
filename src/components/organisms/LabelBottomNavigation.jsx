@@ -8,9 +8,11 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import { useNavigate } from "react-router-dom";
 
+
 export const LabelBottomNavigation = () => {
   const [value, setValue] = React.useState("home");
   const navigate = useNavigate();
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

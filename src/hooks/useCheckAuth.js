@@ -7,7 +7,7 @@ export const useCheckUser=()=>{
     const navigate = useNavigate();
 
     const onCheckUser=useCallback(()=>{
-        if (currentUser == null){
+        if (Object.keys(currentUser).length === 0){
             alert("ログインが必要です");
            return navigate("/signin");
         }else{
