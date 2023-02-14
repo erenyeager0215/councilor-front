@@ -2,11 +2,12 @@ import { SimpleAccordion } from "../components/atoms/SimpleAccordion";
 import { useLoaderData } from "react-router-dom";
 import { getCouncilor, getQuestions } from "../councilors";
 import CardMedia from "@mui/material/CardMedia";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useCheckUser } from "../hooks/useCheckAuth";
 import { useFavorite } from "../hooks/useFavorite";
 import { useLoginUser } from "../hooks/useLoginUser";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export async function loader({ params }) {
   // pathの":contactId"がparams.contactIdとして渡される
@@ -24,35 +25,34 @@ export async function loader({ params }) {
   return { councilors, questions };
 }
 
-
-
 export const Councilor = () => {
-  const {onCheckUser}=useCheckUser();
-  const [isSupport,setIsSupport]= useState(false);
+  const { onCheckUser } = useCheckUser();
+  const [isSupport, setIsSupport] = useState(false);
   const { councilors, questions } = useLoaderData();
-  const {postFavoriteCouncilor}= useFavorite();
-  const {currentUser}=useLoginUser();
+  const { postFavoriteCouncilor } = useFavorite();
+  const { currentUser } = useLoginUser();
 
-  const onClick =()=>{
+  const onClick = () => {
     onCheckUser();
-    postFavoriteCouncilor(councilors.id,currentUser);
+    postFavoriteCouncilor(councilors.id, currentUser);
     return setIsSupport(!isSupport);
-  }
-  
+  };
 
   return (
     <div>
       <CardMedia
         component="img"
-        image={`${process.env.PUBLIC_URL}/${councilors.image}.jpg`}
+        image={`${process.env.PUBLIC_URL}/${councilors.imagepath}.jpg`}
         alt={`${councilors.image}`}
         sx={{ borderRadius: "16px" }}
       />
 
-      <Button  variant="contained" disabled={isSupport} onClick={onClick} >
+      <Button variant="contained" disabled={isSupport} onClick={onClick}>
         この議員を支持する
       </Button>
-      
+
+      {/* {currentUser.favorite.councilor_id === councilors.id && <FavoriteIcon />} */}
+
       <h2>
         {councilors.name}
         <br />

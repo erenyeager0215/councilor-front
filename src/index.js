@@ -15,6 +15,7 @@ import {Councilors, loader as councilorsLoader} from "./page/Councilors";
 import {Councilor, loader as councilorLoader} from "./page/Councilor";
 import {SignIn} from "./page/SignIn"
 import {SignUp} from "./page/SignUp"
+import {Data} from "./page/Data"
 import {QuestionsHome,loader as categorylistLoader}from "./page/QuestionsHome"
 import {QuestionsByCategory,loader as questionsLoader}from "./page/QuestionsByCategory"
 import { LoginUseProvider } from "./provider/LoginUseProvider";
@@ -72,6 +73,9 @@ const router = createBrowserRouter([
             path: "questions/:category",
             element:<QuestionsByCategory/>,      
             loader:questionsLoader,
+          },{
+            path: "data",
+            element:<Data/>,      
           }
     ],
   },

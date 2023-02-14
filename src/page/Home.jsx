@@ -1,4 +1,6 @@
-import { useLoginUser } from "../hooks/useLoginUser";
+import { BirthdayPicker } from "../components/atoms/BirthdayPicker";
+
+
 
 
 export const Home=()=> {
