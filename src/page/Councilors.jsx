@@ -1,12 +1,13 @@
 import { Grid } from "@mui/material";
 import * as React from "react";
-import { useLoaderData, Link } from "react-router-dom";
+import { useLoaderData, Link, useFetcher } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { getCouncilors } from "../councilors";
+import { useLoginUser } from "../hooks/useLoginUser";
 
 export async function loader() {
   const councilors = await getCouncilors();
@@ -15,6 +16,7 @@ export async function loader() {
 
 export const Councilors = () => {
   const { councilors } = useLoaderData();
+  const { currentUser } = useLoginUser();
 
   return (
     <>
@@ -39,6 +41,13 @@ export const Councilors = () => {
                     <Typography gutterBottom variant="h5" component="div">
                       {councilor.name}
                     </Typography>
+                    <div>
+                      {currentUser.favorite.councilor_id === councilor.id ? (
+                        <span>★</span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </div>
                     <Typography
                       variant="body2"
                       color="text.secondary"
@@ -53,3 +62,26 @@ export const Councilors = () => {
     </>
   );
 };
+
+function Favorite({ userInfo }) {
+  const fetcher = useFetcher();
+  // yes, this is a `let` for later
+  let favorite = userInfo;
+
+  // useLoadDataから送られるfavorite情報よりも早く★の表示を変えられる。
+  if (fetcher.formData) {
+    favorite = fetcher.formData.get("favorite") === "true";
+  }
+
+  return (
+    <fetcher.Form method="post">
+      <button
+        name="favorite"
+        value={favorite ? "false" : "true"}
+        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+      >
+        {favorite ? "★" : "☆"}
+      </button>
+    </fetcher.Form>
+  );
+}

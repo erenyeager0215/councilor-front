@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useCheckUser } from "../hooks/useCheckAuth";
 import { useFavorite } from "../hooks/useFavorite";
 import { useLoginUser } from "../hooks/useLoginUser";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export async function loader({ params }) {
   // pathの":contactId"がparams.contactIdとして渡される
@@ -47,24 +46,27 @@ export const Councilor = () => {
         sx={{ borderRadius: "16px" }}
       />
 
-      <Button variant="contained" disabled={isSupport} onClick={onClick}>
-        この議員を支持する
-      </Button>
-
-      {/* {currentUser.favorite.councilor_id === councilors.id && <FavoriteIcon />} */}
-
-      <h2>
-        {councilors.name}
+      <h2>{councilors.name}</h2>
+      <div>
+        {currentUser.favorite.councilor_id === councilors.id ? (
+          <span>★</span>
+        ) : (
+          <Button variant="contained" disabled={isSupport} onClick={onClick}>
+            この議員を支持する
+          </Button>
+        )}
+      </div>
+      <h3>
         <br />
         {councilors.address}
         <br />
         {councilors.id}
         <br />
-      </h2>
+      </h3>
 
       {questions.map((que) => (
         <>
-          <SimpleAccordion overview={que.overview}>
+          <SimpleAccordion overview={que.overview} key={que}>
             {que.content}
             <br />
             {que.answer}
