@@ -1,4 +1,5 @@
 import { CardMedia } from "@mui/material";
+import { TwitterEmb } from "../atoms/TwitterEmb";
 
 export const FavoriteCouncilor = ({ favCouncilor }) => {
   console.log(favCouncilor.name);
@@ -12,6 +13,7 @@ export const FavoriteCouncilor = ({ favCouncilor }) => {
         sx={{ borderRadius: "16px" }}
       />
       <h2>{favCouncilor.name}</h2>
+      <TwitterEmb />
     </>
   );
 };

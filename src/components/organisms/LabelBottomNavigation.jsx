@@ -8,11 +8,9 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import { useNavigate } from "react-router-dom";
 
-
 export const LabelBottomNavigation = () => {
   const [value, setValue] = React.useState("home");
   const navigate = useNavigate();
-
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -26,15 +24,11 @@ export const LabelBottomNavigation = () => {
     >
       <BottomNavigation
         showLabels
-        sx={{ width: 500 }}
+        sx={{ width: 375 }}
         value={value}
         onChange={handleChange}
       >
-        <BottomNavigationAction
-          label="ホーム"
-          value=""
-          icon={<HomeIcon />}
-        />
+        <BottomNavigationAction label="ホーム" value="" icon={<HomeIcon />} />
         <BottomNavigationAction
           label="議員一覧"
           value="councilors"

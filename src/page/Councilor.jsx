@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import { getCouncilor, getQuestions } from "../councilors";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
-import { useState } from "react";
 import { useCheckUser } from "../hooks/useCheckAuth";
 import { useFavorite } from "../hooks/useFavorite";
 import { useLoginUser } from "../hooks/useLoginUser";
@@ -26,7 +25,6 @@ export async function loader({ params }) {
 
 export const Councilor = () => {
   const { onCheckUser } = useCheckUser();
-  const [isSupport, setIsSupport] = useState(false);
   const { councilors, questions } = useLoaderData();
   const { postFavoriteCouncilor } = useFavorite();
   const { currentUser } = useLoginUser();
@@ -34,7 +32,6 @@ export const Councilor = () => {
   const onClick = () => {
     onCheckUser();
     postFavoriteCouncilor(councilors.id, currentUser);
-    return setIsSupport(!isSupport);
   };
 
   return (
@@ -51,7 +48,7 @@ export const Councilor = () => {
         {currentUser.favorite.councilor_id === councilors.id ? (
           <span>★</span>
         ) : (
-          <Button variant="contained" disabled={isSupport} onClick={onClick}>
+          <Button variant="contained" onClick={onClick}>
             この議員を支持する
           </Button>
         )}

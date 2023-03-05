@@ -1,13 +1,13 @@
-import {React,memo} from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { React, memo } from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export const SimpleAccordion=memo((props)=> {
+export const SimpleAccordion = memo((props) => {
   return (
-    <div>
+    <>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -17,11 +17,9 @@ export const SimpleAccordion=memo((props)=> {
           <Typography>{props.overview}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            {props.children}
-          </Typography>
+          <Typography>{props.children}</Typography>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </>
   );
-})
+});

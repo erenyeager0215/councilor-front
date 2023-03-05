@@ -45,7 +45,7 @@ export const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    data.append("birthday",value)
+    data.append("birthday", value);
     axios
       .post("http://localhost:1323/register_user", {
         nickname: data.get("nickname"),
@@ -54,7 +54,7 @@ export const SignUp = () => {
       })
       .then((res) => {
         console.log(res.data);
-        if (res.data === "ok") {
+        if (res.data === "OK") {
           alert("アカウントが登録されました。ログインしてください");
           navigate("/signin");
         }
@@ -126,9 +126,7 @@ export const SignUp = () => {
                 onChange={(newValue) => {
                   setValue(newValue);
                 }}
-                renderInput={(params) => (
-                  <TextField {...params} />
-                )}
+                renderInput={(params) => <TextField {...params} />}
               />
             </BirthdayPicker>
             <button onClick={() => setValue(null)}>リセット</button>

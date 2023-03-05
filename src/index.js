@@ -19,6 +19,7 @@ import {
 } from "./page/QuestionsByCategory";
 import { LoginUseProvider } from "./provider/LoginUseProvider";
 import { loader as homeLoader } from "./page/Home";
+import { loader as dataLoader } from "./page/Data";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       {
         path: "data",
         element: <Data />,
+        loader: dataLoader,
       },
     ],
   },

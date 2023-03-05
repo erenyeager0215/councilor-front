@@ -29,4 +29,3 @@ export async function getQuestionsByCategory(category) {
   const questions = res.data;
   return questions;
 }
-

@@ -1,36 +1,51 @@
-import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { CircleGraph } from "../components/atoms/CircleGraph";
+import { getRankingOfCouncilors } from "../hooks/useRankingOfCouncilors";
+import { useLoaderData } from "react-router-dom";
 
-export const data = {
-  labels: ['10代', '20代', '30代', '40代', '50代', '60代'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
+export async function loader() {
+  const rankingData = await getRankingOfCouncilors();
+  console.log(rankingData);
+  return { rankingData };
+}
 
 export const Data = () => {
-    return <Pie data={data} />;
-  };
+  const { rankingData } = useLoaderData();
+  console.log(rankingData);
+  return (
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ maxWidth: 375 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>議員名</TableCell>
+              <TableCell align="right">支持数</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rankingData.map((data) => (
+              <TableRow
+                key={data}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {data.name}
+                </TableCell>
+                <TableCell align="right">{data.score}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <CircleGraph />
+    </>
+  );
+};

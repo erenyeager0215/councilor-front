@@ -13,9 +13,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { LabelBottomNavigation } from "../components/organisms/LabelBottomNavigation";
-
 
 const pgObjs = [
   {
@@ -41,7 +39,9 @@ const settings = ["マイプロフィール", "ログアウト"];
 export const Root = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const style = {
+    paddingBottom: "60px",
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -80,7 +80,10 @@ export const Root = () => {
               ○○市議会アプリ
             </Typography>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <Box
+              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+              component="main"
+            >
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -179,10 +182,10 @@ export const Root = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <main>
+      <main style={style}>
         <Outlet />
       </main>
-      <LabelBottomNavigation/>
+      <LabelBottomNavigation />
     </>
   );
 };
