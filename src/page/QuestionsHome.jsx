@@ -16,6 +16,7 @@ export async function loader() {
 
 export const QuestionsHome = () => {
   const { categoryList } = useLoaderData();
+  console.log(categoryList);
   return (
     <>
       <Grid
@@ -25,7 +26,7 @@ export const QuestionsHome = () => {
       >
         {categoryList.map((category) => (
           <Grid item xs={2} sm={4} md={4} key={category}>
-            <LinkComponent to={`./${category}`}>
+            <LinkComponent to={`./category/${category.id}`}>
               <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                   <CardMedia
@@ -36,7 +37,7 @@ export const QuestionsHome = () => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      {category}
+                      {category.category_name}
                     </Typography>
                     <Typography
                       variant="body2"

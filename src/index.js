@@ -21,6 +21,11 @@ import { LoginUseProvider } from "./provider/LoginUseProvider";
 import { loader as homeLoader } from "./page/Home";
 import { loader as dataLoader } from "./page/Data";
 
+import {
+  QuestionsByCategory2,
+  loader as questionsByCategory2Loader,
+} from "./page/QuestionsByCategory2";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -52,6 +57,11 @@ const router = createBrowserRouter([
         path: "questions/:category",
         element: <QuestionsByCategory />,
         loader: questionsLoader,
+      },
+      {
+        path: "questions/category/:category",
+        element: <QuestionsByCategory2 />,
+        loader: questionsByCategory2Loader,
       },
       {
         path: "data",
