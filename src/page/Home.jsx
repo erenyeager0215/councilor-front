@@ -1,25 +1,29 @@
 import { useLoginUser } from "../hooks/useLoginUser";
 import { FavoriteCouncilor } from "../components/templates/FavoriteCouncilor";
-import { getCouncilors, getCategory } from "../councilors";
+import { getCouncilors, getCategoryList } from "../councilors";
 import { useLoaderData, Form } from "react-router-dom";
-
 import * as React from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { useSubmit } from "react-router-dom";
+import { CategoryTile } from "../components/atoms/CategoryTile";
 
 export async function loader(request) {
-  // 全議員データを取得
+  // DBから全議員データを取得
   const councilors = await getCouncilors();
-  return { councilors };
+  // DBからカテゴリリストを取得
+  const categoryList = await getCategoryList();
+  return { councilors, categoryList };
 }
 
 export const Home = () => {
-  const { councilors } = useLoaderData();
+  // loaderで取得した全議員情報を取得
+  const { councilors, categoryList } = useLoaderData();
+
+  // 現在のユーザ情報を取得
   const { currentUser } = useLoginUser();
   const councilorId = currentUser.favorite.councilor_id;
-  const submit = useSubmit();
+  const categoryId = currentUser.favorite.category;
 
   return (
     <>
@@ -40,7 +44,18 @@ export const Home = () => {
           )}
         </>
       ))}
+
       <p>興味のあるカテゴリ</p>
+      {categoryList.map((category) => (
+        <>
+          {/* ユーザのお気に入り情報とカテゴリ一覧をぶつける */}
+          {category.id === categoryId ? (
+            <CategoryTile category={category} />
+          ) : (
+            ""
+          )}
+        </>
+      ))}
     </>
   );
 };

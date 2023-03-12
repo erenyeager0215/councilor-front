@@ -6,6 +6,10 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export const SimpleAccordion = memo((props) => {
+  const style = {
+    fontSize: "8px",
+    marginLeft: "auto",
+  };
   return (
     <>
       <Accordion>
@@ -15,6 +19,7 @@ export const SimpleAccordion = memo((props) => {
           id="panel1a-header"
         >
           <Typography>{props.overview}</Typography>
+          <Typography style={style}>{props.held_time}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>{props.children}</Typography>
