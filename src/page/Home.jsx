@@ -23,7 +23,7 @@ export const Home = () => {
   // 現在のユーザ情報を取得
   const { currentUser } = useLoginUser();
   const councilorId = currentUser.favorite.councilor_id;
-  const categoryId = currentUser.favorite.category;
+  const categoryId = currentUser.favorite.category_id;
 
   return (
     <>
