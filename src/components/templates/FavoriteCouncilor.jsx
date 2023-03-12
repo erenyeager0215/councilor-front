@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { CardMedia } from "@mui/material";
 import { TwitterEmb } from "../atoms/TwitterEmb";
 
-export const FavoriteCouncilor = ({ favCouncilor }) => {
+export const FavoriteCouncilor = memo(({ favCouncilor }) => {
   console.log(favCouncilor.name);
   return (
     <>
@@ -16,4 +17,4 @@ export const FavoriteCouncilor = ({ favCouncilor }) => {
       <TwitterEmb />
     </>
   );
-};
+});

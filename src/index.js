@@ -13,18 +13,14 @@ import {
   QuestionsHome,
   loader as categorylistLoader,
 } from "./page/QuestionsHome";
-import {
-  QuestionsByCategory,
-  loader as questionsLoader,
-} from "./page/QuestionsByCategory";
 import { LoginUseProvider } from "./provider/LoginUseProvider";
 import { loader as homeLoader } from "./page/Home";
 import { loader as dataLoader } from "./page/Data";
 
 import {
-  QuestionsByCategory2,
-  loader as questionsByCategory2Loader,
-} from "./page/QuestionsByCategory2";
+  QuestionsByCategory,
+  loader as questionsByCategoryLoader,
+} from "./page/QuestionsByCategory";
 
 const router = createBrowserRouter([
   {
@@ -54,14 +50,9 @@ const router = createBrowserRouter([
         loader: categorylistLoader,
       },
       {
-        path: "questions/:category",
-        element: <QuestionsByCategory />,
-        loader: questionsLoader,
-      },
-      {
         path: "questions/category/:category",
-        element: <QuestionsByCategory2 />,
-        loader: questionsByCategory2Loader,
+        element: <QuestionsByCategory />,
+        loader: questionsByCategoryLoader,
       },
       {
         path: "data",

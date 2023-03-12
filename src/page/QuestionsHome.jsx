@@ -16,7 +16,9 @@ export async function loader() {
 
 export const QuestionsHome = () => {
   const { categoryList } = useLoaderData();
+
   console.log(categoryList);
+
   return (
     <>
       <Grid
@@ -31,7 +33,7 @@ export const QuestionsHome = () => {
                 <CardActionArea>
                   <CardMedia
                     component="img"
-                    height="140"
+                    height="120"
                     image="https://1.bp.blogspot.com/-tVeC6En4e_E/X96mhDTzJNI/AAAAAAABdBo/jlD_jvZvMuk3qUcNjA_XORrA4w3lhPkdQCNcBGAsYHQ/s1048/onepiece01_luffy.png"
                     alt="green iguana"
                   />
