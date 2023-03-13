@@ -42,6 +42,7 @@ export const Root = () => {
   const style = {
     paddingBottom: "60px",
   };
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };

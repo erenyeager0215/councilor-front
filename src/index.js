@@ -17,7 +17,6 @@ import {
 import { LoginUseProvider } from "./provider/LoginUseProvider";
 import { loader as homeLoader } from "./page/Home";
 import { loader as dataLoader } from "./page/Data";
-
 import {
   QuestionsByCategory,
   loader as questionsByCategoryLoader,
