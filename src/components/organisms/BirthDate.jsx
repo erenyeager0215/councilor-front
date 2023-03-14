@@ -10,7 +10,7 @@ export const BirthDate = () => {
   const [birthDay, setBirthDay] = useState();
 
   const setYear = () => {
-    for (let i = 1920; i <= new Date().getFullYear(); i++) {
+    for (let i = new Date().getFullYear(); 1920 <= i; i--) {
       const option = document.createElement("option");
       const date = new Date(Date.UTC(i));
       const jc = new Intl.DateTimeFormat("ja-JP-u-ca-japanese", {
@@ -18,6 +18,7 @@ export const BirthDate = () => {
       }).format(date);
       option.value = `${i}(${jc})`;
       option.text = `${i}(${jc})`;
+      // ref.currentでDOMに直接アクセスできる
       birthYearRef.current.appendChild(option);
     }
   };
