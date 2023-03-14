@@ -21,7 +21,7 @@ export const useFavorite = () => {
     const res = await axios
       .post(`http://localhost:1323/favorite/category`, {
         user_id: userInfo.user_id,
-        category: category_id,
+        category_id: category_id,
       })
       .catch((e) => {
         console.log(e);

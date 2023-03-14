@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { getCategoryList } from "../councilors";
 import { LinkComponent } from "../components/atoms/LinkComponent";
+import { useLoginUser } from "../hooks/useLoginUser";
 
 export async function loader() {
   const categoryList = await getCategoryList();
@@ -16,6 +17,7 @@ export async function loader() {
 
 export const QuestionsHome = () => {
   const { categoryList } = useLoaderData();
+  const { currentUser } = useLoginUser();
 
   console.log(categoryList);
 
@@ -38,6 +40,13 @@ export const QuestionsHome = () => {
                     alt="green iguana"
                   />
                   <CardContent>
+                    <div>
+                      {currentUser.favorite.category_id === category.id ? (
+                        <span>★</span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </div>
                     <Typography gutterBottom variant="h5" component="div">
                       {category.category_name}
                     </Typography>

@@ -5,13 +5,14 @@ import { useCheckUser } from "../hooks/useCheckAuth";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useLoginUser } from "../hooks/useLoginUser";
+import { useFavorite } from "../hooks/useFavorite";
 
 export async function loader({ params }) {
   let res = await axios.get(
     `http://localhost:1323/questions/category/${params.category}`
   );
   const questions = res.data;
-  const categoryId = params.category;
+  const categoryId = parseInt(params.category, 10);
   return { questions, categoryId };
 }
 
@@ -19,17 +20,19 @@ export const QuestionsByCategory = () => {
   const { questions, categoryId } = useLoaderData();
   const { onCheckUser } = useCheckUser();
   const { currentUser } = useLoginUser();
+  const { postFavoriteCategory } = useFavorite();
 
   const onClick = () => {
     onCheckUser();
+    postFavoriteCategory(categoryId, currentUser);
   };
 
   return (
     <>
       <h2>{questions[0].category}</h2>
       <div>
-        {currentUser.favorite.category === categoryId ? (
-          <span>★</span>
+        {currentUser.favorite.category_id === categoryId ? (
+          <span>★お気に入りのカテゴリです</span>
         ) : (
           <Button variant="contained" onClick={onClick}>
             お気に入り登録

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,9 +15,12 @@ import axios from "axios";
 import { LinkComponent } from "../components/atoms/LinkComponent";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
-import { BirthdayPicker } from "../components/atoms/BirthdayPicker";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { ContentCutOutlined } from "@mui/icons-material";
+import { BirthDate } from "../components/organisms/BirthDate";
+
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 
 function Copyright(props) {
   return (
@@ -37,10 +40,42 @@ function Copyright(props) {
   );
 }
 
+const radioBtnOfGender = {
+  label: "性別",
+  branch: [
+    {
+      value: "male",
+      letter: "男性",
+    },
+    {
+      value: "female",
+      letter: "女性",
+    },
+    {
+      value: "other",
+      letter: "その他",
+    },
+  ],
+};
+
+const radioBtnOfHome = {
+  label: "お住まい",
+  branch: [
+    {
+      value: "InCity",
+      letter: "市内",
+    },
+    {
+      value: "OutOfCity",
+      letter: "市外",
+    },
+  ],
+};
+
 const theme = createTheme();
 
 export const SignUp = () => {
-  const [value, setValue] = React.useState();
+  const [value, setValue] = useState();
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,7 +85,6 @@ export const SignUp = () => {
       .post("http://localhost:1323/register_user", {
         nickname: data.get("nickname"),
         password: data.get("password"),
-        birthday: data.get("birthday"),
       })
       .then((res) => {
         console.log(res.data);
@@ -109,31 +143,9 @@ export const SignUp = () => {
               id="password"
               autoComplete="current-password"
             />
-            <BirthdayPicker sx={{ mt: 2 }}>
-              <DatePicker
-                label="生年月日"
-                mask="____年__月__日"
-                inputFormat="yyyy年MM月dd日"
-                openTo="year"
-                views={["year", "month", "day"]}
-                maxDate={new Date()}
-                value={value}
-                onOpen={() => {
-                  if (value === null) {
-                    setValue(new Date(1990, 0, 1));
-                  }
-                }}
-                onChange={(newValue) => {
-                  setValue(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
-            </BirthdayPicker>
-            <button onClick={() => setValue(null)}>リセット</button>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+            <BirthDate />
+            <ControlledRadioButtonsGroup props={radioBtnOfGender} />
+            <ControlledRadioButtonsGroup props={radioBtnOfHome} />
             <Button
               type="submit"
               fullWidth
@@ -156,5 +168,37 @@ export const SignUp = () => {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
+  );
+};
+
+export const ControlledRadioButtonsGroup = ({ props }) => {
+  const [value, setValue] = useState("male");
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  return (
+    <FormControl>
+      <FormLabel id="demo-row-radio-buttons-group-label">
+        {props.label}
+      </FormLabel>
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+        value={value}
+        onChange={handleChange}
+      >
+        {props.branch.map((data) => (
+          <>
+            <FormControlLabel
+              value={data.value}
+              control={<Radio />}
+              label={data.letter}
+            />
+          </>
+        ))}
+      </RadioGroup>
+    </FormControl>
   );
 };

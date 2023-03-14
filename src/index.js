@@ -9,6 +9,7 @@ import { Councilor, loader as councilorLoader } from "./page/Councilor";
 import { SignIn } from "./page/SignIn";
 import { SignUp } from "./page/SignUp";
 import { Data } from "./page/Data";
+import { Profile } from "./page/Profile";
 import {
   QuestionsHome,
   loader as categorylistLoader,
@@ -16,7 +17,6 @@ import {
 import { LoginUseProvider } from "./provider/LoginUseProvider";
 import { loader as homeLoader } from "./page/Home";
 import { loader as dataLoader } from "./page/Data";
-
 import {
   QuestionsByCategory,
   loader as questionsByCategoryLoader,
@@ -58,6 +58,10 @@ const router = createBrowserRouter([
         path: "data",
         element: <Data />,
         loader: dataLoader,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
     ],
   },
