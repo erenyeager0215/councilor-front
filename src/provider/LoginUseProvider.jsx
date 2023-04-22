@@ -11,6 +11,11 @@ const userInfo = {
     councilor_id: 1,
     category_id: 1,
   },
+  prsonal: {
+    birthday: "2000-01-01",
+    gender: "male",
+    home: "in",
+  },
 };
 
 export const LoginUseProvider = (props) => {

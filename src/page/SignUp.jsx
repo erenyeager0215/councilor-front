@@ -1,10 +1,9 @@
-import { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -15,7 +14,6 @@ import axios from "axios";
 import { LinkComponent } from "../components/atoms/LinkComponent";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
-import { BirthDate } from "../components/organisms/BirthDate";
 
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -200,5 +198,91 @@ export const ControlledRadioButtonsGroup = ({ props }) => {
         ))}
       </RadioGroup>
     </FormControl>
+  );
+};
+
+export const BirthDate = () => {
+  const birthYearRef = useRef(null);
+  const birthMonthRef = useRef(null);
+  const birthDayRef = useRef(null);
+
+  const [birthYear, setBirthYear] = useState();
+  const [birthMonth, setBirthMonth] = useState();
+  const [birthDay, setBirthDay] = useState();
+
+  const setYear = () => {
+    for (let i = new Date().getFullYear(); 1920 <= i; i--) {
+      const option = document.createElement("option");
+      option.value = `${i}`;
+      option.text = `${i}`;
+      // ref.currentでDOMに直接アクセスできる
+      birthYearRef.current.appendChild(option);
+    }
+  };
+
+  const setMonth = () => {
+    for (let i = 1; i <= 12; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.text = i;
+      birthMonthRef.current.appendChild(option);
+    }
+  };
+
+  const setDay = () => {
+    for (let i = 1; i <= 31; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.text = i;
+      birthDayRef.current.appendChild(option);
+    }
+  };
+
+  const selectBirthYear = (e) => {
+    setBirthYear(e.target.value);
+  };
+
+  const selectBirthMonth = (e) => {
+    setBirthMonth(e.target.value);
+  };
+
+  const selectBirthDay = (e) => {
+    setBirthDay(e.target.value);
+  };
+
+  useEffect(() => {
+    setYear();
+    setMonth();
+    setDay();
+  }, []);
+
+  return (
+    <div>
+      <p>生年月日</p>
+      <label>
+        <select
+          ref={birthYearRef}
+          value={birthYear}
+          onChange={selectBirthYear}
+        ></select>
+        年
+      </label>
+      <label>
+        <select
+          ref={birthMonthRef}
+          value={birthMonth}
+          onChange={selectBirthMonth}
+        ></select>
+        月
+      </label>
+      <label>
+        <select
+          ref={birthDayRef}
+          value={birthDay}
+          onChange={selectBirthDay}
+        ></select>
+        日
+      </label>
+    </div>
   );
 };
