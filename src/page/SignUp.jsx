@@ -73,28 +73,57 @@ const radioBtnOfHome = {
 const theme = createTheme();
 
 export const SignUp = () => {
-  const [value, setValue] = useState();
   const navigate = useNavigate();
+  const [gender, setGender] = useState("male");
+  const [home, setHome] = useState("InCity");
+  const [birthYear, setBirthYear] = useState(null);
+  const [birthMonth, setBirthMonth] = useState(null);
+  const [birthDay, setBirthDay] = useState(null);
+
+  const handleBirthYearChange = (value) => {
+    setBirthYear(value);
+  };
+
+  const handleBirthMonthChange = (value) => {
+    setBirthMonth(value);
+  };
+
+  const handleBirthDayChange = (value) => {
+    setBirthDay(value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    data.append("birthday", value);
-    axios
-      .post("http://localhost:1323/register_user", {
-        nickname: data.get("nickname"),
-        password: data.get("password"),
-      })
-      .then((res) => {
-        console.log(res.data);
-        if (res.data === "OK") {
-          alert("アカウントが登録されました。ログインしてください");
-          navigate("/signin");
-        }
-      })
-      .catch((res) => {
-        alert("失敗");
-        navigate("/signup");
-      });
+    const userData = {
+      nickname: data.get("nickname"),
+      password: data.get("password"),
+      birthYear: birthYear,
+      birthMonth: birthMonth,
+      birthDay: birthDay,
+      gender: gender,
+      home: home,
+    };
+
+    navigate("/preview", { state: { userData } });
+
+    // data.append("birthday", value);
+    // axios
+    //   .post("http://localhost:1323/register_user", {
+    //     nickname: data.get("nickname"),
+    //     password: data.get("password"),
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     if (res.data === "OK") {
+    //       alert("アカウントが登録されました。ログインしてください");
+    //       navigate("/signin");
+    //     }
+    //   })
+    //   .catch((res) => {
+    //     alert("失敗");
+    //     navigate("/signup");
+    //   });
   };
 
   return (
@@ -141,9 +170,21 @@ export const SignUp = () => {
               id="password"
               autoComplete="current-password"
             />
-            <BirthDate />
-            <ControlledRadioButtonsGroup props={radioBtnOfGender} />
-            <ControlledRadioButtonsGroup props={radioBtnOfHome} />
+            <BirthDate
+              onBirthYearChange={handleBirthYearChange}
+              onBirthMonthChange={handleBirthMonthChange}
+              onBirthDayChange={handleBirthDayChange}
+            />
+            <ControlledRadioButtonsGroup
+              value={gender}
+              onChange={setGender}
+              props={radioBtnOfGender}
+            />
+            <ControlledRadioButtonsGroup
+              value={home}
+              onChange={setHome}
+              props={radioBtnOfHome}
+            />
             <Button
               type="submit"
               fullWidth
@@ -169,10 +210,9 @@ export const SignUp = () => {
   );
 };
 
-export const ControlledRadioButtonsGroup = ({ props }) => {
-  const [value, setValue] = useState("male");
+export const ControlledRadioButtonsGroup = ({ value, onChange, props }) => {
   const handleChange = (event) => {
-    setValue(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
@@ -201,14 +241,14 @@ export const ControlledRadioButtonsGroup = ({ props }) => {
   );
 };
 
-export const BirthDate = () => {
+export const BirthDate = ({
+  onBirthYearChange,
+  onBirthMonthChange,
+  onBirthDayChange,
+}) => {
   const birthYearRef = useRef(null);
   const birthMonthRef = useRef(null);
   const birthDayRef = useRef(null);
-
-  const [birthYear, setBirthYear] = useState();
-  const [birthMonth, setBirthMonth] = useState();
-  const [birthDay, setBirthDay] = useState();
 
   const setYear = () => {
     for (let i = new Date().getFullYear(); 1920 <= i; i--) {
@@ -239,15 +279,15 @@ export const BirthDate = () => {
   };
 
   const selectBirthYear = (e) => {
-    setBirthYear(e.target.value);
+    onBirthYearChange(e.target.value);
   };
 
   const selectBirthMonth = (e) => {
-    setBirthMonth(e.target.value);
+    onBirthMonthChange(e.target.value);
   };
 
   const selectBirthDay = (e) => {
-    setBirthDay(e.target.value);
+    onBirthDayChange(e.target.value);
   };
 
   useEffect(() => {
@@ -260,28 +300,13 @@ export const BirthDate = () => {
     <div>
       <p>生年月日</p>
       <label>
-        <select
-          ref={birthYearRef}
-          value={birthYear}
-          onChange={selectBirthYear}
-        ></select>
-        年
+        <select ref={birthYearRef} onChange={selectBirthYear}></select>年
       </label>
       <label>
-        <select
-          ref={birthMonthRef}
-          value={birthMonth}
-          onChange={selectBirthMonth}
-        ></select>
-        月
+        <select ref={birthMonthRef} onChange={selectBirthMonth}></select>月
       </label>
       <label>
-        <select
-          ref={birthDayRef}
-          value={birthDay}
-          onChange={selectBirthDay}
-        ></select>
-        日
+        <select ref={birthDayRef} onChange={selectBirthDay}></select>日
       </label>
     </div>
   );

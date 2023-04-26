@@ -21,6 +21,7 @@ import {
   QuestionsByCategory,
   loader as questionsByCategoryLoader,
 } from "./page/QuestionsByCategory";
+import { Preview } from "./page/Preview";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
   {
     path: "signup",
     element: <SignUp />,
+  },
+  {
+    path: "preview",
+    element: <Preview />,
   },
 ]);
 

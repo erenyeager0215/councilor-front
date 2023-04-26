@@ -2,7 +2,7 @@ import { useLoginUser } from "../hooks/useLoginUser";
 import { FavoriteCouncilor } from "../components/templates/FavoriteCouncilor";
 import { getCouncilors, getCategoryList } from "../councilors";
 import { useLoaderData, Form } from "react-router-dom";
-import * as React from "react";
+import { Container } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -27,35 +27,37 @@ export const Home = () => {
 
   return (
     <>
-      <p id="zero-state">
-        議員appのHomeページです.
-        <br />
-        Check out{" "}
-        <a href="https://funabashi.gijiroku.com/g07_giinlist_s.asp">
-          公式の議員一覧ページ
-        </a>
-      </p>
-      {councilors.map((councilor) => (
-        <>
-          {councilor.id === councilorId ? (
-            <FavoriteCouncilor favCouncilor={councilor} />
-          ) : (
-            ""
-          )}
-        </>
-      ))}
+      <Container maxWidth="md">
+        <p id="zero-state">
+          議員appのHomeページです.
+          <br />
+          Check out{" "}
+          <a href="https://funabashi.gijiroku.com/g07_giinlist_s.asp">
+            公式の議員一覧ページ
+          </a>
+        </p>
+        {councilors.map((councilor) => (
+          <>
+            {councilor.id === councilorId ? (
+              <FavoriteCouncilor favCouncilor={councilor} />
+            ) : (
+              ""
+            )}
+          </>
+        ))}
 
-      <p>興味のあるカテゴリ</p>
-      {categoryList.map((category) => (
-        <>
-          {/* ユーザのお気に入り情報とカテゴリ一覧をぶつける */}
-          {category.id === categoryId ? (
-            <CategoryTile category={category} />
-          ) : (
-            ""
-          )}
-        </>
-      ))}
+        <p>興味のあるカテゴリ</p>
+        {categoryList.map((category) => (
+          <>
+            {/* ユーザのお気に入り情報とカテゴリ一覧をぶつける */}
+            {category.id === categoryId ? (
+              <CategoryTile category={category} />
+            ) : (
+              ""
+            )}
+          </>
+        ))}
+      </Container>
     </>
   );
 };
