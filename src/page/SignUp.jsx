@@ -10,7 +10,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { LinkComponent } from "../components/atoms/LinkComponent";
 import Grid from "@mui/material/Grid";
 import { useNavigate } from "react-router-dom";
@@ -42,15 +41,15 @@ const radioBtnOfGender = {
   label: "性別",
   branch: [
     {
-      value: "male",
+      value: "男性",
       letter: "男性",
     },
     {
-      value: "female",
+      value: "女性",
       letter: "女性",
     },
     {
-      value: "other",
+      value: "その他",
       letter: "その他",
     },
   ],
@@ -60,12 +59,12 @@ const radioBtnOfHome = {
   label: "お住まい",
   branch: [
     {
-      value: "InCity",
-      letter: "市内",
+      value: "市内",
+      letter: "船橋市内",
     },
     {
-      value: "OutOfCity",
-      letter: "市外",
+      value: "市外",
+      letter: "船橋市外",
     },
   ],
 };
@@ -107,23 +106,7 @@ export const SignUp = () => {
 
     navigate("/preview", { state: { userData } });
 
-    // data.append("birthday", value);
-    // axios
-    //   .post("http://localhost:1323/register_user", {
-    //     nickname: data.get("nickname"),
-    //     password: data.get("password"),
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.data === "OK") {
-    //       alert("アカウントが登録されました。ログインしてください");
-    //       navigate("/signin");
-    //     }
-    //   })
-    //   .catch((res) => {
-    //     alert("失敗");
-    //     navigate("/signup");
-    //   });
+    
   };
 
   return (
