@@ -38,7 +38,7 @@ export const RegestorBtn = ({ data }) => {
   );
   const submitData = () => {
     axios
-      .post("http://localhost:1323/register_user", {
+      .post("http://18.183.142.189:8080/register_user", {
         nickname: data.nickname,
         password: data.password,
         birthday: formattedBirthDate,

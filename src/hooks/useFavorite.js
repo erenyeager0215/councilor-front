@@ -7,7 +7,7 @@ export const useFavorite = () => {
 
   const postFavoriteCouncilor = useCallback(async (councilor_id, userInfo) => {
     const res = await axios
-      .post(`http://localhost:1323/favorite/councilor`, {
+      .post(`http://18.183.142.189:8080/favorite/councilor`, {
         user_id: userInfo.user_id,
         councilor_id: councilor_id,
       })
@@ -19,7 +19,7 @@ export const useFavorite = () => {
 
   const postFavoriteCategory = useCallback(async (category_id, userInfo) => {
     const res = await axios
-      .post(`http://localhost:1323/favorite/category`, {
+      .post(`http://18.183.142.189:8080/favorite/category`, {
         user_id: userInfo.user_id,
         category_id: category_id,
       })

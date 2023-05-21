@@ -9,7 +9,7 @@ import { useFavorite } from "../hooks/useFavorite";
 
 export async function loader({ params }) {
   let res = await axios.get(
-    `http://localhost:1323/questions/category/${params.category}`
+    `http://18.183.142.189:8080/questions/category/${params.category}`
   );
   const questions = res.data;
   const categoryId = parseInt(params.category, 10);

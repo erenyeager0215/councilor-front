@@ -8,8 +8,8 @@ const userInfo = {
   favorite: {
     id: 1,
     user_id: 1,
-    councilor_id: 1,
-    category_id: 1,
+    councilor_id: 0,
+    category_id: 0,
   },
   prsonal: {
     birthday: "2000-01-01",

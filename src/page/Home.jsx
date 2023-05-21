@@ -1,8 +1,8 @@
 import { useLoginUser } from "../hooks/useLoginUser";
 import { FavoriteCouncilor } from "../components/templates/FavoriteCouncilor";
 import { getCouncilors, getCategoryList } from "../councilors";
-import { useLoaderData, Form } from "react-router-dom";
-import { Container } from "@mui/material";
+import { useLoaderData, Form, useNavigate } from "react-router-dom";
+import { Container, Button } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -20,43 +20,66 @@ export const Home = () => {
   // loaderで取得した全議員情報を取得
   const { councilors, categoryList } = useLoaderData();
 
+  const navigate = useNavigate();
+
   // 現在のユーザ情報を取得
   const { currentUser } = useLoginUser();
+  console.log(currentUser);
   const councilorId = currentUser.favorite.councilor_id;
   const categoryId = currentUser.favorite.category_id;
+
+  const onClick = () => {
+    return navigate("/signin");
+  };
 
   return (
     <>
       <Container maxWidth="md">
         <p id="zero-state">
-          議員appのHomeページです.
+          議員appのホーム画面です。
           <br />
-          Check out{" "}
-          <a href="https://funabashi.gijiroku.com/g07_giinlist_s.asp">
-            公式の議員一覧ページ
-          </a>
+          {currentUser.favorite.user_id === 1 ? (
+            <>
+              <Button variant="contained" onClick={onClick}>
+                ログインする
+              </Button>
+              <p>
+                ログインすることでお気に入りの議員やカテゴリの登録ができます
+              </p>
+            </>
+          ) : (
+            ""
+          )}
         </p>
-        {councilors.map((councilor) => (
-          <>
-            {councilor.id === councilorId ? (
+        {councilors.some((councilor) => councilor.id === councilorId) ? (
+          councilors.map((councilor) =>
+            councilor.id === councilorId ? (
               <FavoriteCouncilor favCouncilor={councilor} />
             ) : (
               ""
-            )}
-          </>
-        ))}
+            )
+          )
+        ) : (
+          <p>お気に入りの議員の登録がありません</p>
+        )}
 
-        <p>興味のあるカテゴリ</p>
-        {categoryList.map((category) => (
-          <>
-            {/* ユーザのお気に入り情報とカテゴリ一覧をぶつける */}
-            {category.id === categoryId ? (
-              <CategoryTile category={category} />
-            ) : (
-              ""
-            )}
-          </>
-        ))}
+        {categoryList.some((category) => category.id === categoryId) ? (
+          categoryList.map((category) => (
+            <>
+              {/* ユーザのお気に入り情報とカテゴリ一覧をぶつける */}
+              {category.id === categoryId ? (
+                <>
+                  <p>興味のあるカテゴリ</p>
+                  <CategoryTile category={category} />
+                </>
+              ) : (
+                ""
+              )}
+            </>
+          ))
+        ) : (
+          <p>興味のあるカテゴリが登録されていません</p>
+        )}
       </Container>
     </>
   );

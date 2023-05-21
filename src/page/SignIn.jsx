@@ -43,7 +43,7 @@ export const SignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const res = await axios.post("http://localhost:1323/login", {
+    const res = await axios.post("http://18.183.142.189:8080/login", {
       nickname: data.get("nickname"),
       password: data.get("password"),
     });
@@ -102,10 +102,7 @@ export const SignIn = () => {
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
             <Button
               type="submit"
               fullWidth

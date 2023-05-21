@@ -26,11 +26,11 @@ const pgObjs = [
   },
   {
     name: "各種データ",
-    path: "./councilors",
+    path: "./data",
   },
   {
-    name: "このアプリについて",
-    path: "./councilors",
+    name: "ログインする",
+    path: "./signin",
   },
 ];
 
@@ -139,7 +139,9 @@ export const Root = () => {
                   key={pgObj.index}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  {pgObj.name}
+                  <NavLink to={pgObj.path} style={{ color: "white" }}>
+                    <Typography textAlign="center">{pgObj.name}</Typography>
+                  </NavLink>
                 </Button>
               ))}
             </Box>
